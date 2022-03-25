@@ -1,9 +1,9 @@
 import React, {useState} from 'react';
 
-import Home from './Pages/Home';
+import Routes from './Route';
 
 export default function App() {
   return(
-    <Home />
+    <Routes />
   );
 }
