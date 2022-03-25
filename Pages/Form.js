@@ -1,6 +1,7 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
+import axios from "axios";
 import { StyleSheet, Text, View, Image, TextInput, TouchableOpacity } from "react-native";
-import { useNavigation } from '@react-navigation/native';
+import { useFocusEffect, useNavigation } from '@react-navigation/native';
 import Picker from 'react-native-picker-select';
 import logo from './Assets/user_4_add.png';
 
@@ -8,12 +9,26 @@ import Header from "./Header";
 
 function Form() {
     const navigation = useNavigation();
+
+    const [nome, setNome] = useState('');
+    const [idade, setIdade] = useState(0);
+    const [sexos, setSexo] = useState('');
+
     const sexo = [
-        {label: 'Masculino', value: '1'},
-        {label: 'Feminino', value: '2'},
-        {label: 'Outros', value: '3'}
+        {label: 'Masculino', value: 'Masculino'},
+        {label: 'Feminino', value: 'Feminino'},
+        {label: 'Outros', value: 'Outros'}
     ]
-    const placeholder = { label:'Informe Seu Sexo', value: null, color: 'black'};
+
+    function handleNameChange(name){ setNome(name); }
+    function handleAgeChange(idade){ setIdade(parseInt(idade)); }
+    function handleSexChange(sexo){ setSexo(sexo); }
+
+    const placeholderSexo = { label:'Informe o Sexo', value: null, color: 'black'};
+
+    function Imprime() {
+        alert(`Dados Salvos com sucesso: \n${nome}, \n${idade}, \n${sexos}`);
+    }
 
     return(
         <>
@@ -24,10 +39,10 @@ function Form() {
             </View>
 
             <View>
-                <TextInput style={styles.input} placeholder="Digite Seu Nome" autoCapitalize="words" />
-                <TextInput style={styles.input} placeholder="Digite Sua Idade" keyboardType="numeric"/>
-                <Picker placeholder={placeholder} onValueChange={() => {}} style={pickerSelectStyles} items={sexo} />
-                <TouchableOpacity style={styles.button}>
+                <TextInput style={styles.input} placeholder="Informe o Nome" autoCapitalize="words" onChangeText={handleNameChange} />
+                <TextInput style={styles.input} placeholder="Informe a Idade" keyboardType="numeric" onChangeText={handleAgeChange} />
+                <Picker placeholder={placeholderSexo} onValueChange={handleSexChange} style={pickerSelectStyles} items={sexo} />
+                <TouchableOpacity style={styles.button} onPress={Imprime}>
                     <Text style={styles.buttonText}>Salvar</Text>
                 </TouchableOpacity>
                 <TouchableOpacity style={styles.buttonCancel} onPress={() => navigation.navigate('Home')}>
